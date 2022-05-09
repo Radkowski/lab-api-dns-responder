@@ -1,0 +1,56 @@
+[
+{
+  "Region": "eu-west-1",
+  "Data": {
+    "ip_range": [
+      "10.10.10.0/24",
+      "10.10.20.0/24"
+    ],
+    "dns": "alfa.radkowski.cloud",
+    "load": "20"
+  }
+},
+{
+  "Region": "us-west-2",
+  "Data": {
+    "ip_range": [
+      "10.20.10.0/24",
+      "10.20.20.0/24"
+    ],
+    "dns": "bravo.radkowski.cloud",
+    "load": "30"
+  }
+},
+{
+  "Region": "rad-us",
+  "Data": {
+    "ip_range": [
+      "10.30.10.0/24",
+      "10.30.20.0/24"
+    ],
+    "dns": "charlie.radkowski.cloud",
+    "load": "40"
+  }
+},
+{
+  "Region": "rad-eu",
+  "Data": {
+    "ip_range": [
+      "10.40.10.0/24",
+      "10.40.20.0/24"
+    ],
+    "dns": "delta.radkowski.cloud",
+    "load": "76"
+  }
+},
+{
+  "Region": "default",
+  "Data": {
+    "ip_range": [
+      "0.0.0.0/0"
+    ],
+    "dns": "charlie.radkowski.cloud",
+    "load": "100"
+  }
+}
+]

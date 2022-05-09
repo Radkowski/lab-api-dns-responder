@@ -1,0 +1,13 @@
+version: 0.2
+phases:
+  install:
+    commands:
+       - chmod +x buildspec.sh
+       - ./buildspec.sh
+  build:
+    commands:
+      - ls -la
+artifacts:
+  files:
+    - ./cf/deploy_stack.yaml
+    - ./cf_parameters.json

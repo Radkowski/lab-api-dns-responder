@@ -1,0 +1,5 @@
+{
+   "LambdaFileName" : { "Fn::GetParam" : ["BuildArtifact", "cf_parameters.json", "filename"]},
+   "DeploymentName" : { "Fn::GetParam" : ["BuildArtifact", "cf_parameters.json", "deploymentname"]},
+   "SourceS3Name" : { "Fn::GetParam" : ["BuildArtifact", "cf_parameters.json", "bucketname"]} 
+ }

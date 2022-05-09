@@ -1,0 +1,88 @@
+Parameters:
+
+  DeploymentName:
+    Type: String
+    Default: lab-api-dns-responder
+    Description: Unique prefix defined deployment
+
+  SourceS3Name:
+    Type: String
+    Default: lab-api-dns-bucket
+    Description: Enter t2.micro, m1.small, or m1.large. Default is t2.micro.
+
+  LambdaFileName:
+    Type: String
+    Default: "lambda/lambda.zip"
+    Description: Lambda zip file
+
+
+
+Resources:
+
+  LambdaRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      RoleName: !Join
+        - ''
+        - - !Ref DeploymentName
+          - -Lambda-Role
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      Path: /
+      Policies:
+        - PolicyName: !Join
+            - ''
+            - - !Ref DeploymentName
+              - -Lambda-Policy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'logs:CreateLogStream'
+                  - 'logs:PutLogEvents'
+                Resource: !Join
+                  - ''
+                  - - 'arn:aws:logs:'
+                    - !Ref 'AWS::Region'
+                    - ':'
+                    - !Ref 'AWS::AccountId'
+                    - ':log-group:/aws/lambda/'
+                    - !Ref DeploymentName
+                    - '-Lambda:*'
+              - Effect: Allow
+                Action:
+                  - 'logs:CreateLogGroup'
+                Resource: !Join
+                  - ''
+                  - - 'arn:aws:logs:'
+                    - !Ref 'AWS::Region'
+                    - ':'
+                    - !Ref 'AWS::AccountId'
+                    - ':*'
+
+
+
+
+
+  LambdaFunction:
+      Type: 'AWS::Lambda::Function'
+      DependsOn: LambdaRole
+      Properties:
+        Architectures: ['arm64']
+        FunctionName: !Join [ "", [ !Ref DeploymentName , '-Lambda' ] ]
+        Handler: lambda_function.lambda_handler
+        Role: !GetAtt LambdaRole.Arn
+        Code:
+          S3Bucket: !Ref SourceS3Name
+          S3Key: !Join [ "", [ 'lambda/', !Ref LambdaFileName ] ]
+        Runtime: python3.8
+        Timeout: 30
+        ReservedConcurrentExecutions: 100
