@@ -181,7 +181,7 @@ resource "aws_iam_role" "cloudformation-role" {
           "Action" : [
             "iam:GetRole",
             "iam:DeleteRole",
-            # "iam:PassRole",
+            #"iam:PassRole",
             "iam:CreateRole",
             "iam:AttachRolePolicy",
             "iam:getRolePolicy",
@@ -201,7 +201,8 @@ resource "aws_iam_role" "cloudformation-role" {
             "lambda:CreateFunction",
             "lambda:DeleteFunction",
             "lambda:PublishVersion",
-            "lambda:ListVersionsByFunction"
+            "lambda:ListVersionsByFunction",
+            "lambda:ListTags"
           ]
         },
         {
