@@ -2,7 +2,7 @@ import ipaddress
 import boto3
 import pprint
 import json
-#some another changes
+
 
 
 def read_config():
@@ -46,5 +46,6 @@ def lambda_handler(event,context):
     ip = event['headers']['x-forwarded-for']
     response = {}
     response['statusCode'] = 200
+    response['headers'] = { "Content-Type": "application/json" }
     response['body'] = json.dumps(return_closest_record(ip,read_config()))
     return (response)
