@@ -2,7 +2,7 @@ import ipaddress
 import boto3
 import pprint
 import json
-
+#some another changes
 
 
 def read_config():
@@ -43,12 +43,8 @@ def return_idle_record(source_ip,config):
 
 
 def lambda_handler(event,context):
-
-    if event['ip_addr'] == 'test-invoke-source-ip':
-        ip = '127.0.0.1'
-    else:
-        ip = event['ip_addr']
-    if event['action'] == 'idle':
-        return return_idle_record(ip,read_config())
-    else:
-        return return_closest_record(ip,read_config())
+    ip = event['headers']['x-forwarded-for']
+    response = {}
+    response['statusCode'] = 200
+    response['body'] = json.dumps(return_closest_record(ip,read_config()))
+    return (response)

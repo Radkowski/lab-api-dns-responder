@@ -4,6 +4,7 @@ module "DUMMY-LAMBDA" {
   DeploymentName = var.DeploymentName
 }
 
+
 module "INFRA" {
   depends_on     = [module.DUMMY-LAMBDA]
   source         = "./infra"
@@ -18,9 +19,13 @@ module "LAMBDA-INFO" {
 }
 
 
-module "API-GW" {
-  source         = "./api-gateway"
+module "ALB" {
   depends_on     = [module.LAMBDA-INFO]
+  source         = "./alb"
   DeploymentName = var.DeploymentName
-  lambda_info    = module.LAMBDA-INFO.lambda_info
+  CERTARN        = var.CERTARN
+  VPCID          = var.VPCID
+  SUBNETSID      = var.SubnetsID
+  LAMBDA         = module.LAMBDA-INFO.lambda_info
+  SSL-ENABLE     = var.SSL-ENABLE
 }
